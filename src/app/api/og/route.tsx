@@ -100,6 +100,15 @@ export async function GET(req: NextRequest) {
     iconBase64 = await fetchIconAsBase64(icon);
   }
 
+  // Fetch local logo.png as base64
+  let logoBase64: string | null = null;
+  try {
+    const logoUrl = new URL('/logo.png', req.url).toString();
+    logoBase64 = await fetchIconAsBase64(logoUrl);
+  } catch (err) {
+    console.error("Failed to fetch brand logo for OG", err);
+  }
+
   // Custom typography styles based on load result
   const titleFontFamily = outfitBoldData ? 'Outfit, Inter, sans-serif' : 'sans-serif';
   const bodyFontFamily = interRegularData ? 'Inter, sans-serif' : 'sans-serif';
@@ -142,21 +151,33 @@ export async function GET(req: NextRequest) {
         {/* Brand Header */}
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-            <div style={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              width: '36px',
-              height: '36px',
-              borderRadius: '10px',
-              backgroundColor: '#a7a7a7',
-              color: '#070709',
-              fontWeight: 900,
-              fontFamily: titleFontFamily,
-              fontSize: '20px',
-            }}>
-              D
-            </div>
+            {logoBase64 ? (
+              <img 
+                src={logoBase64} 
+                alt="Logo" 
+                style={{ 
+                  width: '36px', 
+                  height: '36px', 
+                  objectFit: 'contain'
+                }} 
+              />
+            ) : (
+              <div style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                width: '36px',
+                height: '36px',
+                borderRadius: '10px',
+                backgroundColor: '#a7a7a7',
+                color: '#070709',
+                fontWeight: 900,
+                fontFamily: titleFontFamily,
+                fontSize: '20px',
+              }}>
+                D
+              </div>
+            )}
             <span style={{
               fontSize: '22px',
               fontWeight: 900,
