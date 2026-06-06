@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { scrapeHomepage } from '@/lib/scraper';
+import { getAggregatedRepos } from '@/lib/repo-aggregator';
 
 export const dynamic = 'force-dynamic';
 
@@ -19,12 +19,16 @@ function parseSizeToBytes(sizeStr: string): number {
 
 export async function GET(request: NextRequest) {
   try {
+    const { searchParams } = new URL(request.url);
+    const pageVal = searchParams.get('page') || '1';
+    const segment = parseInt(pageVal, 10) || 1;
+
     const host = request.headers.get('host') || 'localhost:3000';
     const protocol = host.includes('localhost') ? 'http' : 'https';
     const baseUrl = `${protocol}://${host}`;
 
-    // Scrape homepage data
-    const data = await scrapeHomepage();
+    // Scrape paginated listings (aggregated apps + games)
+    const data = await getAggregatedRepos(segment);
     const iosApps = data.ipa || [];
 
     // Map to AltStore JSON schema
@@ -37,33 +41,65 @@ export async function GET(request: NextRequest) {
 
       // Create download URL pointing to our proxy redirector
       const downloadRedirectUrl = `${baseUrl}/api/repo/download-redirect?url=${encodeURIComponent(app.detailUrl)}`;
+      const cleanVersion = app.version.replace(/^v/i, '') || '1.0.0';
+      const versionDate = new Date().toISOString().split('T')[0];
+      const desc = app.modFeatures 
+        ? `Features: ${app.modFeatures}. Subcategory: ${app.category}.`
+        : `Tweaked version of ${cleanTitle}. Category: ${app.category}.`;
+      
+      const appSubtitle = app.modFeatures || `Tweaked ${app.category || 'iOS App'}`;
 
       return {
         name: cleanTitle,
         bundleIdentifier: bundleId,
+        bundleID: bundleId, // dual-compat
         developerName: 'DMods Team',
-        localizedDescription: app.modFeatures 
-          ? `Features: ${app.modFeatures}. Subcategory: ${app.category}.`
-          : `Tweaked version of ${cleanTitle}. Category: ${app.category}.`,
+        contact: {
+          web: baseUrl
+        },
+        subtitle: appSubtitle,
+        version: cleanVersion,
+        versionDate: versionDate,
+        size: sizeBytes,
+        minOSVersion: '15.0',
+        changelog: app.modFeatures || 'Initial DMods Release',
+        versionDescription: app.modFeatures || 'Initial DMods Release',
+        localizedDescription: desc,
+        description: desc, // dual-compat
         iconURL: app.iconUrl,
-        tintColor: '#C0C2C0',
+        icon: app.iconUrl, // dual-compat
+        tintColor: 'C0C2C0',
         versions: [
           {
-            version: app.version.replace(/^v/i, '') || '1.0.0',
-            date: new Date().toISOString(),
+            version: cleanVersion,
+            date: versionDate,
             localizedDescription: `Release notes: ${app.modFeatures || 'Mod feature injected.'}`,
             downloadURL: downloadRedirectUrl,
-            size: sizeBytes
+            down: downloadRedirectUrl, // dual-compat
+            size: sizeBytes,
+            minOSVersion: '15.0'
           }
-        ]
+        ],
+        // Direct root fields inside app object for Scarlet/ESign
+        downloadURL: downloadRedirectUrl,
+        down: downloadRedirectUrl
       };
     });
 
     const repoJSON = {
-      name: 'DMods AltStore Repository',
+      name: segment > 1 ? `DMods Repository (Page ${segment})` : 'DMods Repository',
+      subtitle: 'Premium Tweaked & Modded iOS IPAs',
       identifier: 'com.kingxdeni.dmods',
-      sourceURL: `${baseUrl}/api/repo/altstore`,
-      apps: altStoreApps
+      sourceURL: `${baseUrl}/api/repo/altstore?page=${segment}`,
+      website: baseUrl,
+      iconURL: `${baseUrl}/logo.png`,
+      headerURL: `${baseUrl}/logo.png`,
+      META: {
+        repoName: segment > 1 ? `DMods Repository (Page ${segment})` : 'DMods Repository',
+        repoIcon: `${baseUrl}/logo.png`
+      },
+      apps: altStoreApps,
+      Tweaked: altStoreApps // Scarlet compatibility
     };
 
     return NextResponse.json(repoJSON, {
