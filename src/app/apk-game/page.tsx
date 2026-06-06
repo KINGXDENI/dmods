@@ -1,5 +1,7 @@
 import { scrapeListingPage } from '@/lib/scraper';
 import PaginatedListingView from '@/components/PaginatedListingView';
+import type { Metadata } from 'next';
+import { constructMetadata } from '@/lib/metadata';
 
 export const revalidate = 3600; // Cache pages for 1 hour
 
@@ -8,6 +10,29 @@ interface PageProps {
     category?: string;
     page?: string;
   }>;
+}
+
+export async function generateMetadata({ searchParams }: PageProps): Promise<Metadata> {
+  const params = await searchParams;
+  const category = params.category || 'all';
+  const pageNum = parseInt(params.page || '1', 10) || 1;
+  
+  const catTitle = category === 'all' 
+    ? 'All Android Games' 
+    : `${category.charAt(0).toUpperCase() + category.slice(1).replace(/-/g, ' ')} Android Games`;
+    
+  return constructMetadata({
+    title: `${catTitle} – DMods`,
+    description: `Browse ${catTitle.toLowerCase()} in the modified Android games library. Safe, high-speed verified APK downloads.`,
+    path: `/apk-game?category=${category}&page=${pageNum}`,
+    ogParams: {
+      title: catTitle,
+      subtitle: `Browse premium modified Android games, mods, and hacks. Page ${pageNum}.`,
+      badge: "Android Games",
+      platform: "android",
+      type: "home"
+    }
+  });
 }
 
 export default async function ApkGameListingPage({ searchParams }: PageProps) {

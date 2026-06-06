@@ -1,7 +1,21 @@
 import { scrapeHomepage } from "@/lib/scraper";
 import ListingView from "../ListingView";
+import type { Metadata } from 'next';
+import { constructMetadata } from '@/lib/metadata';
 
 export const revalidate = 3600; // Revalidate cache every hour (Incremental Static Regeneration)
+
+export const metadata: Metadata = constructMetadata({
+  title: "Mod Directory – DMods",
+  description: "Browse the absolute database of tweaked iOS IPA packages and Android APK apps. Direct sideload certificates and status verification.",
+  path: "/home",
+  ogParams: {
+    title: "Mod Directory",
+    subtitle: "Explore decrypted iOS apps, tweaked games, and Android packages. Fully searchable offline-cached archive.",
+    badge: "Repository Index",
+    type: "home"
+  }
+});
 
 export default async function Home() {
   try {

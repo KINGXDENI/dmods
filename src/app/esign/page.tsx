@@ -2,25 +2,23 @@ import type { Metadata } from 'next';
 import { scrapeEsignPage } from '@/lib/scraper';
 import EsignClientView from './EsignClientView';
 
+import { constructMetadata } from '@/lib/metadata';
+
 // Revalidate the ESign scraping page cache every 1 hour
 export const revalidate = 3600;
 
-export const metadata: Metadata = {
+export const metadata: Metadata = constructMetadata({
   title: 'ESign iOS Signer Hub – DMods',
   description: 'Download and install ESign directly on your iOS device using active enterprise signing certificates. Secure config profiles, DNS anti-revokes, and direct IPA downloads.',
-  openGraph: {
-    title: 'ESign iOS Signer Hub – DMods',
-    description: 'Download and install ESign directly on your iOS device using active enterprise signing certificates.',
-    images: [
-      {
-        url: '/logo.png',
-        width: 512,
-        height: 512,
-        alt: 'ESign iOS Hub'
-      }
-    ]
+  path: '/esign',
+  ogParams: {
+    title: 'ESign iOS Signer Hub',
+    subtitle: 'Install ESign on-device with active enterprise certificates. Bypasses standard revokes and restricts Apple telemetry.',
+    badge: 'ESign iOS Hub',
+    platform: 'ios',
+    type: 'home'
   }
-};
+});
 
 export default async function EsignPage() {
   let scrapedData = {

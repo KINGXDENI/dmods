@@ -2,8 +2,22 @@ import Link from 'next/link';
 import { scrapeHomepage } from "@/lib/scraper";
 import { CustomAppleIcon, CustomAndroidIcon } from '@/components/CustomIcons';
 import { ShieldCheck, Cpu, Terminal, ArrowRight, Activity, ChevronRight } from 'lucide-react';
+import type { Metadata } from 'next';
+import { constructMetadata } from '@/lib/metadata';
 
 export const revalidate = 3600; // Cache landing page for 1 hour
+
+export const metadata: Metadata = constructMetadata({
+  title: "DMods – Premium IPA & APK Hub",
+  description: "Find and download tweaked iOS IPA files and modified Android APK apps safely with high-speed secure links.",
+  path: "/",
+  ogParams: {
+    title: "DMods – Premium IPA & APK Hub",
+    subtitle: "Automated Sideload Archive & Decrypted Library. Direct sign, TrollStore compatible, and verified direct downloads.",
+    badge: "Active Stack",
+    type: "home"
+  }
+});
 
 export default async function LandingPage() {
   let featuredApps: any[] = [];

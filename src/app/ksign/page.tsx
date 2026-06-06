@@ -2,25 +2,23 @@ import type { Metadata } from 'next';
 import { scrapeKsignPage } from '@/lib/scraper';
 import KsignClientView from './KsignClientView';
 
+import { constructMetadata } from '@/lib/metadata';
+
 // Revalidate the KSign scraping page cache every 1 hour
 export const revalidate = 3600;
 
-export const metadata: Metadata = {
+export const metadata: Metadata = constructMetadata({
   title: 'KSign iOS Signer Hub – DMods',
   description: 'Download and install KSign directly on your iOS device using active enterprise signing certificates. Secure config profiles, DNS anti-revokes, and direct IPA downloads.',
-  openGraph: {
-    title: 'KSign iOS Signer Hub – DMods',
-    description: 'Download and install KSign directly on your iOS device using active enterprise signing certificates.',
-    images: [
-      {
-        url: '/logo.png',
-        width: 512,
-        height: 512,
-        alt: 'KSign iOS Hub'
-      }
-    ]
+  path: '/ksign',
+  ogParams: {
+    title: 'KSign iOS Signer Hub',
+    subtitle: 'Install KSign on-device with active enterprise certificates. Bypasses standard revokes and restricts Apple telemetry.',
+    badge: 'KSign iOS Hub',
+    platform: 'ios',
+    type: 'home'
   }
-};
+});
 
 export default async function KsignPage() {
   let scrapedData = {

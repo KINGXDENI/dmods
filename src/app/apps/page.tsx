@@ -1,5 +1,7 @@
 import { scrapeListingPage } from '@/lib/scraper';
 import PaginatedListingView from '@/components/PaginatedListingView';
+import type { Metadata } from 'next';
+import { constructMetadata } from '@/lib/metadata';
 
 export const revalidate = 3600; // Cache pages for 1 hour
 
@@ -8,6 +10,28 @@ interface PageProps {
     category?: string;
     page?: string;
   }>;
+}
+
+export async function generateMetadata({ searchParams }: PageProps): Promise<Metadata> {
+  const params = await searchParams;
+  const category = params.category || 'all';
+  const pageNum = parseInt(params.page || '1', 10) || 1;
+  
+  const catTitle = category === 'all' 
+    ? 'All iOS Apps' 
+    : `${category.charAt(0).toUpperCase() + category.slice(1).replace(/-/g, ' ')} Apps`;
+    
+  return constructMetadata({
+    title: `${catTitle} – DMods`,
+    description: `Browse ${catTitle.toLowerCase()} in the decrypted iOS library. Direct OTA signing certs included.`,
+    path: `/apps?category=${category}&page=${pageNum}`,
+    ogParams: {
+      title: catTitle,
+      subtitle: `Browse decrypted iOS IPA packages, tweaked apps, and utilities. Page ${pageNum}.`,
+      badge: "iOS Applications",
+      type: "home"
+    }
+  });
 }
 
 export default async function AppsListingPage({ searchParams }: PageProps) {

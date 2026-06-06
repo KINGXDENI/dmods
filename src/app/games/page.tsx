@@ -1,5 +1,7 @@
 import { scrapeListingPage } from '@/lib/scraper';
 import PaginatedListingView from '@/components/PaginatedListingView';
+import type { Metadata } from 'next';
+import { constructMetadata } from '@/lib/metadata';
 
 export const revalidate = 3600; // Cache pages for 1 hour
 
@@ -8,6 +10,28 @@ interface PageProps {
     category?: string;
     page?: string;
   }>;
+}
+
+export async function generateMetadata({ searchParams }: PageProps): Promise<Metadata> {
+  const params = await searchParams;
+  const category = params.category || 'all';
+  const pageNum = parseInt(params.page || '1', 10) || 1;
+  
+  const catTitle = category === 'all' 
+    ? 'All iOS Games' 
+    : `${category.charAt(0).toUpperCase() + category.slice(1).replace(/-/g, ' ')} Games`;
+    
+  return constructMetadata({
+    title: `${catTitle} – DMods`,
+    description: `Browse ${catTitle.toLowerCase()} in the decrypted iOS games catalog. Sideload and play tweaked games instantly.`,
+    path: `/games?category=${category}&page=${pageNum}`,
+    ogParams: {
+      title: catTitle,
+      subtitle: `Browse decrypted iOS IPA game packages, tweaked games, and emulators. Page ${pageNum}.`,
+      badge: "iOS Games",
+      type: "home"
+    }
+  });
 }
 
 export default async function GamesListingPage({ searchParams }: PageProps) {

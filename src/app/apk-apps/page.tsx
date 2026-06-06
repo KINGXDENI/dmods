@@ -1,5 +1,7 @@
 import { scrapeListingPage } from '@/lib/scraper';
 import PaginatedListingView from '@/components/PaginatedListingView';
+import type { Metadata } from 'next';
+import { constructMetadata } from '@/lib/metadata';
 
 export const revalidate = 3600; // Cache pages for 1 hour
 
@@ -8,6 +10,29 @@ interface PageProps {
     category?: string;
     page?: string;
   }>;
+}
+
+export async function generateMetadata({ searchParams }: PageProps): Promise<Metadata> {
+  const params = await searchParams;
+  const category = params.category || 'all';
+  const pageNum = parseInt(params.page || '1', 10) || 1;
+  
+  const catTitle = category === 'all' 
+    ? 'All Android Apps' 
+    : `${category.charAt(0).toUpperCase() + category.slice(1).replace(/-/g, ' ')} Android Apps`;
+    
+  return constructMetadata({
+    title: `${catTitle} – DMods`,
+    description: `Browse ${catTitle.toLowerCase()} in the modified Android library. Safe, high-speed verified APK downloads.`,
+    path: `/apk-apps?category=${category}&page=${pageNum}`,
+    ogParams: {
+      title: catTitle,
+      subtitle: `Browse premium modified Android APK files and tools. Page ${pageNum}.`,
+      badge: "Android Applications",
+      platform: "android",
+      type: "home"
+    }
+  });
 }
 
 export default async function ApkAppsListingPage({ searchParams }: PageProps) {

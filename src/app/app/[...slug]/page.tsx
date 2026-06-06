@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { ChevronLeft, Link as LinkIcon } from 'lucide-react';
 import { scrapeDetailPage, scrapeDownloadPage } from '@/lib/scraper';
 import InteractiveAppDetail from '@/components/InteractiveAppDetail';
+import { constructMetadata } from '@/lib/metadata';
 
 export const revalidate = 3600; // Cache pages for 1 hour
 
@@ -26,29 +27,45 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
   try {
     const data = await scrapeDetailPage(targetUrl);
-    const title = `${data.appName} ${data.version ? `v${data.version}` : ''} - DMods`;
-    const description = `Download ${data.appName} premium mod for ${targetPath.startsWith('apk') ? 'Android' : 'iOS'}. ${data.descriptionText.slice(0, 150)}...`;
+    const platform = targetPath.startsWith('apk') ? 'android' : 'ios';
+    const cleanTitle = isDownloadPage 
+      ? `Download ${data.appName} ${data.version ? `v${data.version}` : ''} Mod`
+      : `${data.appName} ${data.version ? `v${data.version}` : ''} Premium Mod`;
+      
+    const title = `${cleanTitle} – DMods`;
+    
+    const shortDesc = data.descriptionText 
+      ? data.descriptionText.slice(0, 150).replace(/\s+/g, ' ').trim() 
+      : 'Download premium decrypted app/game package.';
+    const description = `${isDownloadPage ? 'Download link page for' : 'Download'} ${data.appName} mod for ${platform === 'android' ? 'Android' : 'iOS'}. ${shortDesc}...`;
 
-    return {
+    return constructMetadata({
       title,
       description,
-      openGraph: {
-        title,
-        description,
-        images: data.iconUrl ? [{ url: data.iconUrl }] : [],
-        type: 'website',
-      },
-      twitter: {
-        card: 'summary_large_image',
-        title,
-        description,
-        images: data.iconUrl ? [data.iconUrl] : [],
+      path: `/app/${slug.join('/')}`,
+      ogParams: {
+        title: data.appName || cleanTitle,
+        subtitle: data.descriptionText ? data.descriptionText.slice(0, 140) + '...' : description,
+        badge: isDownloadPage ? 'Download' : data.category || 'Premium Mod',
+        version: data.version,
+        size: data.size,
+        platform: platform as any,
+        icon: data.iconUrl,
+        type: 'app'
       }
-    };
+    });
   } catch (err) {
-    return {
-      title: 'App Detail - DMods',
-    };
+    return constructMetadata({
+      title: 'App Detail – DMods',
+      description: 'Find and download tweaked iOS IPA files and modified Android APK apps safely.',
+      path: `/app/${slug.join('/')}`,
+      ogParams: {
+        title: 'App Detail',
+        subtitle: 'Remote repository synchronization. Sideload archive package detail.',
+        badge: 'App Profile',
+        type: 'home'
+      }
+    });
   }
 }
 
