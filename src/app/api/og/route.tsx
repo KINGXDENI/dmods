@@ -61,8 +61,14 @@ export async function GET(req: NextRequest) {
 
   try {
     const [boldRes, regRes] = await Promise.all([
-      fetch('https://fonts.gstatic.com/s/outfit/v11/Q3pwFi1qy187xCAD75beS7g.woff').then(res => res.arrayBuffer()),
-      fetch('https://cdnjs.cloudflare.com/ajax/libs/inter-ui/3.19.3/web/fonts/Inter-Regular.woff').then(res => res.arrayBuffer())
+      fetch('https://cdn.jsdelivr.net/npm/@fontsource/outfit/files/outfit-latin-700-normal.woff').then(res => {
+        if (!res.ok) throw new Error(`Failed to load Outfit font: ${res.status}`);
+        return res.arrayBuffer();
+      }),
+      fetch('https://cdn.jsdelivr.net/npm/@fontsource/inter/files/inter-latin-400-normal.woff').then(res => {
+        if (!res.ok) throw new Error(`Failed to load Inter font: ${res.status}`);
+        return res.arrayBuffer();
+      })
     ]);
     outfitBoldData = boldRes;
     interRegularData = regRes;
