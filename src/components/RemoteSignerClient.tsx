@@ -5,7 +5,9 @@ import { Download, ShieldCheck, Cpu, Terminal, Loader2, Check, PenTool, Trash2, 
 import { cn } from '@/lib/utils';
 
 export default function RemoteSignerClient() {
+  const [ipaMode, setIpaMode] = useState<'link' | 'file'>('link');
   const [ipaUrl, setIpaUrl] = useState('');
+  const [ipaFile, setIpaFile] = useState<File | null>(null);
   const [appName, setAppName] = useState('');
 
   // Signing states
@@ -19,6 +21,14 @@ export default function RemoteSignerClient() {
   const [provisionFile, setProvisionFile] = useState<File | null>(null);
   const [certPassword, setCertPassword] = useState('');
   const [saveTokenOption, setSaveTokenOption] = useState(true);
+
+  const handleIpaFileChange = (file: File | null) => {
+    setIpaFile(file);
+    if (file && !appName) {
+      const cleanName = file.name.replace(/\.ipa$/i, '').replace(/[_-]/g, ' ');
+      setAppName(cleanName);
+    }
+  };
 
   // Job progress
   const [signStatus, setSignStatus] = useState<'idle' | 'signing' | 'done' | 'error'>('idle');
@@ -109,15 +119,17 @@ export default function RemoteSignerClient() {
 
   const handleExecuteSigning = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!ipaUrl) return;
+    if (ipaMode === 'link' && !ipaUrl) return;
+    if (ipaMode === 'file' && !ipaFile) return;
     
     setSignStatus('signing');
-    setSignProgress('Validating connection payload...');
+    setSignProgress('Preparing compilation payload...');
     setErrMessage('');
     setSignedOtaLink('');
 
     try {
-      if (certMode === 'server' || certMode === 'saved') {
+      // If we have a URL link AND we use a server/saved certificate, we can use the async start endpoint (job queue)
+      if (ipaMode === 'link' && (certMode === 'server' || certMode === 'saved')) {
         const formData = new FormData();
         formData.append('ipa_url', ipaUrl);
         formData.append('app_name', appName || 'Signed App');
@@ -144,22 +156,39 @@ export default function RemoteSignerClient() {
         setSignProgress('Job queued. Waiting in line...');
         pollSignStatus(jobId);
       } else {
-        if (!p12File || !provisionFile) {
-          throw new Error('Please upload both .p12 and .mobileprovision files.');
+        // Otherwise (meaning local IPA upload OR custom cert upload), we upload files via sign-merge.php (synchronous endpoint)
+        const formData = new FormData();
+        formData.append('bundle', 'com.ipaomtk.auto');
+        formData.append('app_name', appName || (ipaFile ? ipaFile.name.replace(/\.ipa$/i, '') : 'Signed App'));
+
+        // Handle IPA input
+        if (ipaMode === 'link') {
+          formData.append('mode', 'remote_ipa');
+          formData.append('ipa_url', ipaUrl);
+        } else {
+          if (!ipaFile) throw new Error('Please select an IPA file.');
+          formData.append('mode', 'custom_ipa');
+          formData.append('custom_ipa', ipaFile);
+          formData.append('custom_name', appName || ipaFile.name.replace(/\.ipa$/i, ''));
         }
 
-        const formData = new FormData();
-        formData.append('certificate_mode', 'upload');
-        formData.append('p12', p12File);
-        formData.append('mobileprovision', provisionFile);
-        formData.append('password', certPassword);
-        formData.append('save_certificate', saveTokenOption ? '1' : '0');
-        formData.append('bundle', 'com.ipaomtk.auto');
-        formData.append('mode', 'remote_ipa');
-        formData.append('ipa_url', ipaUrl);
-        formData.append('app_name', appName || 'Signed App');
+        // Handle certificate input
+        formData.append('certificate_mode', certMode);
+        if (certMode === 'server') {
+          formData.append('server_certificate', selectedCert);
+        } else if (certMode === 'saved' && savedToken) {
+          formData.append('saved_cert_token', savedToken);
+        } else if (certMode === 'upload') {
+          if (!p12File || !provisionFile) {
+            throw new Error('Please upload both .p12 and .mobileprovision files.');
+          }
+          formData.append('p12', p12File);
+          formData.append('mobileprovision', provisionFile);
+          formData.append('password', certPassword);
+          formData.append('save_certificate', saveTokenOption ? '1' : '0');
+        }
 
-        setSignProgress('Uploading certificates to compilation workspace...');
+        setSignProgress(ipaMode === 'file' ? 'Uploading IPA file to compiler... (This may take a minute)' : 'Uploading certificates to compilation workspace...');
 
         const mergeRes = await fetch('/api/sign-proxy?action=merge', {
           method: 'POST',
@@ -168,10 +197,10 @@ export default function RemoteSignerClient() {
 
         const mergeData = await mergeRes.json();
         if (!mergeData.ok) {
-          throw new Error(mergeData.error || 'Failed to sign with uploaded certificate.');
+          throw new Error(mergeData.error || 'Failed to sign with selected certificates.');
         }
 
-        if (saveTokenOption && mergeData.savedCertToken) {
+        if (certMode === 'upload' && saveTokenOption && mergeData.savedCertToken) {
           localStorage.setItem('saved_cert_token', mergeData.savedCertToken);
           const expiryDate = new Date();
           expiryDate.setDate(expiryDate.getDate() + 5);
@@ -212,7 +241,7 @@ export default function RemoteSignerClient() {
           </div>
           <h1 className="text-4xl sm:text-5xl font-black tracking-tighter uppercase text-foreground">Remote Signer</h1>
           <p className="text-muted-foreground text-sm font-medium leading-relaxed max-w-lg">
-            Sideload any IPA package via link directly on your iOS device. Bypasses computer connections with instant OTA installation.
+            Sideload any IPA package via link or local file upload directly on your iOS device. Bypasses computer connections with instant OTA installation.
           </p>
         </div>
 
@@ -220,22 +249,81 @@ export default function RemoteSignerClient() {
         <form onSubmit={handleExecuteSigning} className="rounded-[3rem] border border-quartz/30 bg-jet/20 backdrop-blur-xl p-1.5 sm:p-2 shadow-2xl">
           <div className="bg-charleston/30 rounded-[2.5rem] p-6 sm:p-8 flex flex-col gap-6">
             
-            {/* IPA Download URL Input */}
+            {/* IPA Input Method Tabs */}
             <div className="flex flex-col gap-2">
-              <label className="text-dimgray font-black text-[9px] uppercase tracking-widest">IPA Package URL</label>
-              <div className="relative flex items-center">
-                <Globe className="absolute left-4 h-4 w-4 text-dimgray" />
-                <input 
-                  type="url"
-                  required
-                  placeholder="https://example.com/payload.ipa"
-                  value={ipaUrl}
+              <label className="text-dimgray font-black text-[9px] uppercase tracking-widest">IPA Package Source</label>
+              <div className="flex gap-2 p-1 bg-jet/80 border border-quartz/35 rounded-xl">
+                <button
+                  type="button"
                   disabled={signStatus === 'signing'}
-                  onChange={(e) => setIpaUrl(e.target.value)}
-                  className="w-full h-12 pl-11 pr-4 rounded-2xl bg-jet/70 border border-quartz/40 text-argent text-xs font-semibold focus:outline-none focus:border-argent/50 disabled:opacity-50"
-                />
+                  onClick={() => setIpaMode('link')}
+                  className={cn(
+                    "flex-1 py-2 rounded-lg text-[9px] font-black uppercase tracking-wider transition-all cursor-pointer flex items-center justify-center gap-1.5",
+                    ipaMode === 'link' ? "bg-argent text-thamar font-black" : "text-dimgray hover:text-argent",
+                    signStatus === 'signing' && "opacity-50 cursor-not-allowed"
+                  )}
+                >
+                  <Globe className="h-3 w-3" />
+                  Paste IPA Link
+                </button>
+                <button
+                  type="button"
+                  disabled={signStatus === 'signing'}
+                  onClick={() => setIpaMode('file')}
+                  className={cn(
+                    "flex-1 py-2 rounded-lg text-[9px] font-black uppercase tracking-wider transition-all cursor-pointer flex items-center justify-center gap-1.5",
+                    ipaMode === 'file' ? "bg-argent text-thamar font-black" : "text-dimgray hover:text-argent",
+                    signStatus === 'signing' && "opacity-50 cursor-not-allowed"
+                  )}
+                >
+                  <UploadCloud className="h-3 w-3" />
+                  Upload IPA File
+                </button>
               </div>
             </div>
+
+            {/* IPA Download URL Input */}
+            {ipaMode === 'link' && (
+              <div className="flex flex-col gap-2">
+                <label className="text-dimgray font-black text-[9px] uppercase tracking-widest">IPA Package URL</label>
+                <div className="relative flex items-center">
+                  <Globe className="absolute left-4 h-4 w-4 text-dimgray" />
+                  <input 
+                    type="url"
+                    required
+                    placeholder="https://example.com/payload.ipa"
+                    value={ipaUrl}
+                    disabled={signStatus === 'signing'}
+                    onChange={(e) => setIpaUrl(e.target.value)}
+                    className="w-full h-12 pl-11 pr-4 rounded-2xl bg-jet/70 border border-quartz/40 text-argent text-xs font-semibold focus:outline-none focus:border-argent/50 disabled:opacity-50"
+                  />
+                </div>
+              </div>
+            )}
+
+            {/* IPA File Upload Input */}
+            {ipaMode === 'file' && (
+              <div className="flex flex-col gap-2">
+                <label className="text-dimgray font-black text-[9px] uppercase tracking-widest">IPA Application Binary</label>
+                <div className="relative flex items-center justify-between bg-jet/85 border border-quartz/40 rounded-xl p-3 hover:border-argent/30 transition-colors">
+                  <span className="text-[10px] text-argent font-bold truncate max-w-[280px]">
+                    {ipaFile ? ipaFile.name : 'Select .ipa file'}
+                  </span>
+                  <label className="flex items-center gap-1.5 px-3 py-1.5 bg-quartz/20 hover:bg-quartz/45 border border-quartz/30 rounded-lg text-[9px] font-black uppercase tracking-wider text-argent cursor-pointer transition-all">
+                    <UploadCloud className="h-3.5 w-3.5" />
+                    Browse
+                    <input 
+                      type="file" 
+                      accept=".ipa"
+                      required
+                      disabled={signStatus === 'signing'}
+                      onChange={(e) => handleIpaFileChange(e.target.files?.[0] || null)}
+                      className="hidden" 
+                    />
+                  </label>
+                </div>
+              </div>
+            )}
 
             {/* App Display Name Input */}
             <div className="flex flex-col gap-2">
@@ -445,7 +533,7 @@ export default function RemoteSignerClient() {
             ) : (
               <button 
                 type="submit"
-                disabled={!ipaUrl}
+                disabled={ipaMode === 'link' ? !ipaUrl : !ipaFile}
                 className="flex items-center justify-center gap-3 w-full py-5 bg-argent rounded-2xl text-xs font-black uppercase tracking-widest text-thamar transition-all hover:scale-[1.02] active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed shadow-[0_15px_30px_-5px_rgba(167,167,167,0.25)] cursor-pointer"
               >
                 <PenTool className="h-5 w-5" />
