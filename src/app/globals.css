@@ -93,10 +93,10 @@
   --thamar: #ffffff;
 
   /* Brand Accent colors */
-  --almond: #ebdcc9;
-  --matcha: #9db390;
-  --eclipse: #121212;
-  --forest: #1e3f20;
+  --almond: #181818; /* Thamar Black for high contrast backgrounds */
+  --matcha: #545454; /* Brilliant Liquorice */
+  --eclipse: #ffffff; /* White text on dark almond backgrounds */
+  --forest: #cbd5e1; /* Quartz light gray for badges */
 }
 
 .dark {
@@ -137,10 +137,10 @@
   --thamar: #181818;
 
   /* Brand Accent colors */
-  --almond: #ebdcc9;
-  --matcha: #9db390;
-  --eclipse: #121212;
-  --forest: #1e3f20;
+  --almond: #A7A7A7; /* Moon Landing for high contrast dark mode */
+  --matcha: #ffffff; /* White for highlights */
+  --eclipse: #181818; /* Thamar Black text on light almond backgrounds */
+  --forest: #545454; /* Brilliant Liquorice for badges */
 }
 
 .theme-logo {

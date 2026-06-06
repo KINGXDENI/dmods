@@ -166,11 +166,11 @@ export default function PaginatedListingView({
                       )}
                       
                       {/* Platform Tag */}
-                      <div className="absolute right-1 top-1 rounded-full p-1 bg-black/75 border border-border/30 backdrop-blur-md">
+                      <div className="absolute right-1 top-1 rounded-full p-1 bg-white text-[#181818] border border-border/50 shadow-sm flex items-center justify-center">
                         {isAndroid ? (
-                          <CustomAndroidIcon className="h-2.5 w-2.5 text-almond" />
+                          <CustomAndroidIcon className="h-2.5 w-2.5 text-[#181818]" />
                         ) : (
-                          <CustomAppleIcon className="h-2.5 w-2.5 text-matcha" />
+                          <CustomAppleIcon className="h-2.5 w-2.5 text-[#181818]" />
                         )}
                       </div>
                     </div>
