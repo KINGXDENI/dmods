@@ -534,7 +534,7 @@ export default function RemoteSignerClient() {
               <button 
                 type="submit"
                 disabled={ipaMode === 'link' ? !ipaUrl : !ipaFile}
-                className="flex items-center justify-center gap-3 w-full py-5 bg-argent rounded-2xl text-xs font-black uppercase tracking-widest text-thamar transition-all hover:scale-[1.02] active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed shadow-[0_15px_30px_-5px_rgba(167,167,167,0.25)] cursor-pointer"
+                className="flex items-center justify-center gap-3 w-full py-5 bg-foreground text-background rounded-2xl text-xs font-black uppercase tracking-widest transition-all hover:bg-foreground/90 hover:scale-[1.02] active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed shadow-[0_15px_30px_-5px_rgba(167,167,167,0.25)] cursor-pointer"
               >
                 <PenTool className="h-5 w-5" />
                 <span>Start Remote Sideload</span>

@@ -25,6 +25,33 @@ const androidSvg = (
   </svg>
 );
 
+// DMods Brand Logo SVG (Fallback if PNG fails to load)
+const brandLogoSvg = (
+  <svg width="36" height="36" viewBox="0 0 24 24" style={{ color: '#ffffff', marginRight: '8px', display: 'flex' }}>
+    {/* Outer Shield */}
+    <path 
+      d="M12 2L4 5v6c0 5.5 3.5 10.5 8 12 4.5-1.5 8-6.5 8-12V5l-8-3z" 
+      fill="none" 
+      stroke="currentColor" 
+      strokeWidth="2.5" 
+      strokeLinecap="round" 
+      strokeLinejoin="round" 
+    />
+    {/* Inner Shield Body with transparent white fill */}
+    <path 
+      d="M12 6L7 9.5V14c0 2.5 2 4.5 5 5.5 3-1 5-3 5-5.5V9.5L12 6z" 
+      fill="currentColor" 
+      opacity="0.12" 
+    />
+    {/* Stylized geometric D/M winged pattern inside */}
+    <path 
+      d="M8 10l4 3 4-3v3.5c0 1.5-1.5 3-4 3.5-2.5-.5-4-2-4-3.5V10z" 
+      fill="currentColor" 
+      opacity="0.65" 
+    />
+  </svg>
+);
+
 async function fetchIconAsBase64(url?: string): Promise<string | null> {
   if (!url) return null;
   try {
@@ -100,15 +127,6 @@ export async function GET(req: NextRequest) {
     iconBase64 = await fetchIconAsBase64(icon);
   }
 
-  // Fetch local logo.png as base64
-  let logoBase64: string | null = null;
-  try {
-    const logoUrl = new URL('/logo.png', req.url).toString();
-    logoBase64 = await fetchIconAsBase64(logoUrl);
-  } catch (err) {
-    console.error("Failed to fetch brand logo for OG", err);
-  }
-
   // Custom typography styles based on load result
   const titleFontFamily = outfitBoldData ? 'Outfit, Inter, sans-serif' : 'sans-serif';
   const bodyFontFamily = interRegularData ? 'Inter, sans-serif' : 'sans-serif';
@@ -151,33 +169,33 @@ export async function GET(req: NextRequest) {
         {/* Brand Header */}
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-            {logoBase64 ? (
-              <img 
-                src={logoBase64} 
-                alt="Logo" 
-                style={{ 
-                  width: '36px', 
-                  height: '36px', 
-                  objectFit: 'contain'
-                }} 
+            <svg width="36" height="36" viewBox="0 0 24 24" style={{ marginRight: '8px', display: 'flex' }}>
+              {/* Outer Shield */}
+              <path 
+                d="M12 2L4 5v6c0 5.5 3.5 10.5 8 12 4.5-1.5 8-6.5 8-12V5l-8-3z" 
+                style={{
+                  fill: 'none',
+                  stroke: '#ffffff',
+                  strokeWidth: 2.5,
+                  strokeLinecap: 'round',
+                  strokeLinejoin: 'round',
+                }}
               />
-            ) : (
-              <div style={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                width: '36px',
-                height: '36px',
-                borderRadius: '10px',
-                backgroundColor: '#a7a7a7',
-                color: '#070709',
-                fontWeight: 900,
-                fontFamily: titleFontFamily,
-                fontSize: '20px',
-              }}>
-                D
-              </div>
-            )}
+              {/* Inner Shield Body with transparent white fill */}
+              <path 
+                d="M12 6L7 9.5V14c0 2.5 2 4.5 5 5.5 3-1 5-3 5-5.5V9.5L12 6z" 
+                style={{
+                  fill: 'rgba(255, 255, 255, 0.12)',
+                }}
+              />
+              {/* Stylized geometric D/M winged pattern inside */}
+              <path 
+                d="M8 10l4 3 4-3v3.5c0 1.5-1.5 3-4 3.5-2.5-.5-4-2-4-3.5V10z" 
+                style={{
+                  fill: '#a7a7a7',
+                }}
+              />
+            </svg>
             <span style={{
               fontSize: '22px',
               fontWeight: 900,

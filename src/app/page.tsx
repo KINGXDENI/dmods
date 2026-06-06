@@ -58,8 +58,7 @@ export default async function LandingPage() {
           <img 
             src="/logo.png" 
             alt="DMods Logo" 
-            className="h-24 w-24 object-contain mb-2 animate-fade-in" 
-            style={{ filter: 'brightness(0) invert(0.655)' }}
+            className="h-24 w-24 object-contain mb-2 animate-fade-in theme-logo" 
           />
           <h1 className="text-5xl md:text-8xl font-black tracking-tighter leading-[0.9] text-foreground uppercase">
             DMods
@@ -76,7 +75,7 @@ export default async function LandingPage() {
         <div className="flex flex-col sm:flex-row gap-4 mt-4 w-full sm:w-auto">
           <Link 
             href="/home"
-            className="flex items-center justify-center gap-2 px-10 py-5 bg-argent text-thamar font-black uppercase tracking-[0.2em] text-[11px] rounded-2xl hover:bg-white hover:scale-[1.03] active:scale-[0.97] transition-all shadow-[0_15px_30px_-5px_rgba(167,167,167,0.3)]"
+            className="flex items-center justify-center gap-2 px-10 py-5 bg-foreground text-background font-black uppercase tracking-[0.2em] text-[11px] rounded-2xl hover:bg-foreground/90 hover:scale-[1.03] active:scale-[0.97] transition-all shadow-[0_15px_30px_-5px_rgba(167,167,167,0.3)]"
           >
             <span>Explore Mod Library</span>
             <ChevronRight className="h-4 w-4" />
@@ -116,7 +115,7 @@ export default async function LandingPage() {
               >
                 <div className="flex flex-col gap-4">
                   {/* App Icon Container */}
-                  <div className="relative aspect-square w-full overflow-hidden rounded-[1.5rem] border border-quartz/40 bg-charleston/60 shadow-md">
+                  <div className="relative h-16 w-16 sm:h-20 sm:w-20 overflow-hidden rounded-[1.25rem] border border-quartz/40 bg-charleston/60 shadow-md flex-shrink-0">
                     {app.iconUrl ? (
                       <img 
                         src={app.iconUrl} 
@@ -127,19 +126,19 @@ export default async function LandingPage() {
                     ) : (
                       <div className="flex h-full w-full items-center justify-center bg-charleston text-dimgray">
                         {app.platformType === 'ios' ? (
-                          <CustomAppleIcon className="h-10 w-10 text-argent" />
+                          <CustomAppleIcon className="h-8 w-8 text-argent" />
                         ) : (
-                          <CustomAndroidIcon className="h-10 w-10 text-argent" />
+                          <CustomAndroidIcon className="h-8 w-8 text-argent" />
                         )}
                       </div>
                     )}
                     
                     {/* Platform Tag */}
-                    <div className="absolute right-3 top-3 rounded-full p-1 bg-black/75 border border-quartz/30 backdrop-blur-md">
+                    <div className="absolute right-1 top-1 rounded-full p-1 bg-card/90 border border-quartz/30 backdrop-blur-md">
                       {app.platformType === 'ios' ? (
-                        <CustomAppleIcon className="h-3.5 w-3.5 text-argent" />
+                        <CustomAppleIcon className="h-2.5 w-2.5 text-foreground" />
                       ) : (
-                        <CustomAndroidIcon className="h-3.5 w-3.5 text-argent" />
+                        <CustomAndroidIcon className="h-2.5 w-2.5 text-foreground" />
                       )}
                     </div>
                   </div>
@@ -223,7 +222,7 @@ export default async function LandingPage() {
           </div>
           <Link 
             href="/home" 
-            className="flex items-center justify-center gap-2 px-8 py-5 bg-argent text-thamar font-black uppercase tracking-[0.2em] text-[10px] rounded-2xl hover:bg-white hover:scale-[1.03] active:scale-[0.97] transition-all whitespace-nowrap"
+            className="flex items-center justify-center gap-2 px-8 py-5 bg-foreground text-background font-black uppercase tracking-[0.2em] text-[10px] rounded-2xl hover:bg-foreground/90 hover:scale-[1.03] active:scale-[0.97] transition-all whitespace-nowrap"
           >
             <span>Launch Mod Library</span>
             <ChevronRight className="h-4 w-4" />

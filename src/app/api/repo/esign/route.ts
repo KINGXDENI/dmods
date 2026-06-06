@@ -87,7 +87,7 @@ export async function GET(request: NextRequest) {
     });
 
     const repoJSON = {
-      name: segment > 1 ? `DMods ESign Repository (Page ${segment})` : 'DMods ESign Repository',
+      name: segment > 1 ? `DMods (Page ${segment})` : 'DMods',
       subtitle: 'Premium Tweaked & Modded iOS IPAs',
       identifier: 'com.kingxdeni.dmods.esign',
       sourceURL: `${baseUrl}/api/repo/esign?page=${segment}`,
@@ -95,7 +95,7 @@ export async function GET(request: NextRequest) {
       iconURL: `${baseUrl}/logos.png`,
       headerURL: `${baseUrl}/logos.png`,
       META: {
-        repoName: segment > 1 ? `DMods ESign Repository (Page ${segment})` : 'DMods ESign Repository',
+        repoName: segment > 1 ? `DMods IPA Repository (Page ${segment})` : 'DMods IPA Repository',
         repoIcon: `${baseUrl}/logos.png`
       },
       apps: mappedApps,

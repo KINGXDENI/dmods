@@ -48,13 +48,18 @@
   --radius-3xl: calc(var(--radius) * 2.2);
   --radius-4xl: calc(var(--radius) * 2.6);
 
-  /* User color palette - Updated to Grayscale Industrial */
-  --color-argent: #A7A7A7;    /* Moon */
-  --color-charleston: #343434; /* Jet */
-  --color-quartz: #545454;     /* Liquorice */
-  --color-davys: #545454;      /* Liquorice */
-  --color-dimgray: #7A7A7A;    /* Steel */
-  --color-thamar: #181818;     /* Thamar */
+  /* User color palette - Map to theme variables */
+  --color-argent: var(--argent);
+  --color-charleston: var(--charleston);
+  --color-jet: var(--jet);
+  --color-quartz: var(--quartz);
+  --color-davys: var(--davys);
+  --color-dimgray: var(--dimgray);
+  --color-thamar: var(--thamar);
+  --color-almond: var(--almond);
+  --color-matcha: var(--matcha);
+  --color-eclipse: var(--eclipse);
+  --color-forest: var(--forest);
 }
 
 :root {
@@ -65,18 +70,33 @@
   --popover: #ffffff;
   --popover-foreground: #181818;
   --primary: #181818;
-  --primary-foreground: #A7A7A7;
+  --primary-foreground: #a7a7a7;
   --secondary: #545454;
   --secondary-foreground: #ffffff;
   --muted: #f1f3f3;
-  --muted-foreground: #7A7A7A;
-  --accent: #A7A7A7;
+  --muted-foreground: #7a7a7a;
+  --accent: #a7a7a7;
   --accent-foreground: #181818;
   --destructive: oklch(0.577 0.245 27.325);
-  --border: #A7A7A7;
-  --input: #A7A7A7;
+  --border: #d1d5db;
+  --input: #d1d5db;
   --ring: #545454;
   --radius: 0.625rem;
+
+  /* Industrial light theme values */
+  --argent: #5a5a5a;
+  --charleston: #eceef1;
+  --jet: #f8fafc;
+  --quartz: #cbd5e1;
+  --davys: #94a3b8;
+  --dimgray: #64748b;
+  --thamar: #ffffff;
+
+  /* Brand Accent colors */
+  --almond: #ebdcc9;
+  --matcha: #9db390;
+  --eclipse: #121212;
+  --forest: #1e3f20;
 }
 
 .dark {
@@ -106,6 +126,28 @@
   --sidebar-accent-foreground: #A7A7A7;
   --sidebar-border: #545454;
   --sidebar-ring: #A7A7A7;
+
+  /* Industrial dark theme values */
+  --argent: #A7A7A7;
+  --charleston: #343434;
+  --jet: #212121;
+  --quartz: #545454;
+  --davys: #545454;
+  --dimgray: #7A7A7A;
+  --thamar: #181818;
+
+  /* Brand Accent colors */
+  --almond: #ebdcc9;
+  --matcha: #9db390;
+  --eclipse: #121212;
+  --forest: #1e3f20;
+}
+
+.theme-logo {
+  filter: brightness(0) invert(0.15); /* dark charcoal logo for light mode */
+}
+.dark .theme-logo {
+  filter: brightness(0) invert(0.655); /* light gray logo for dark mode */
 }
 
 @layer base {
@@ -149,7 +191,7 @@
   @apply relative pl-6 before:content-[''] before:absolute before:left-0 before:top-[0.6em] before:w-1.5 before:h-1.5 before:bg-argent before:rounded-full before:shadow-[0_0_8px_#C0C2C0];
 }
 .content-area a {
-  @apply text-argent underline underline-offset-4 font-black transition-colors hover:text-white;
+  @apply text-argent underline underline-offset-4 font-black transition-colors hover:text-foreground dark:hover:text-white;
 }
 
 /* Industrial Content specific tweaks */

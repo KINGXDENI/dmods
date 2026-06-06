@@ -24,8 +24,8 @@ export function CustomAndroidIcon({ className = "h-5 w-5" }: { className?: strin
       {/* Sleek minimal Android robot SVG representation */}
       <path d="M12 4a4.5 4.5 0 00-4.5 4.5h9A4.5 4.5 0 0012 4z"/>
       {/* Eyes */}
-      <circle cx="10" cy="6.8" r="0.45" fill="black" />
-      <circle cx="14" cy="6.8" r="0.45" fill="black" />
+      <circle cx="10" cy="6.8" r="0.45" fill="var(--background)" />
+      <circle cx="14" cy="6.8" r="0.45" fill="var(--background)" />
       {/* Antennas */}
       <path d="M9 4.2L7.6 2.8a.4.4 0 00-.56.56l1.4 1.4a.4.4 0 00.56-.56zM15 4.2l1.4-1.4a.4.4 0 00-.56-.56l-1.4 1.4a.4.4 0 00.56.56z"/>
       {/* Droid body */}

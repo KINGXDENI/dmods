@@ -6,6 +6,8 @@ import { usePathname } from 'next/navigation';
 import { Home, Search, PenTool, ChevronDown, Database } from 'lucide-react';
 import { CustomAppleIcon, CustomAndroidIcon } from '@/components/CustomIcons';
 import { cn } from '@/lib/utils';
+import ThemeToggle from '@/components/ThemeToggle';
+import SmartDeviceDetect from '@/components/SmartDeviceDetect';
 
 export default function Navbar() {
   const pathname = usePathname();
@@ -68,8 +70,7 @@ export default function Navbar() {
             <img 
               src="/logo.png" 
               alt="DMods Logo" 
-              className="h-7 w-7 object-contain group-hover:scale-105 transition-transform" 
-              style={{ filter: 'brightness(0) invert(0.655)' }}
+              className="h-7 w-7 object-contain group-hover:scale-105 transition-transform theme-logo" 
             />
             <span className="font-black tracking-tight">DMods</span>
           </Link>
@@ -84,7 +85,7 @@ export default function Navbar() {
                   : "hover:bg-quartz/10 text-muted-foreground hover:text-foreground"
               )}
             >
-              <Home className={cn("h-4 w-4 transition-transform group-hover:scale-110", pathname === '/home' ? "text-white" : "text-argent")} />
+              <Home className={cn("h-4 w-4 transition-transform group-hover:scale-110", pathname === '/home' ? "text-foreground" : "text-argent group-hover:text-foreground")} />
               <span>Home</span>
               {pathname === '/home' && (
                 <span className="absolute bottom-0 left-3 right-3 h-0.5 bg-argent rounded-full shadow-[0_0_8px_#C0C2C0]" />
@@ -107,9 +108,9 @@ export default function Navbar() {
                     : "hover:bg-quartz/10 text-muted-foreground hover:text-foreground"
                 )}
               >
-                <CustomAppleIcon className={cn("h-4 w-4 transition-transform group-hover:scale-110", isIpaActive ? "text-white" : "text-argent")} />
+                <CustomAppleIcon className={cn("h-4 w-4 transition-transform group-hover:scale-110", isIpaActive ? "text-foreground" : "text-argent group-hover:text-foreground")} />
                 <span>iOS IPA</span>
-                <ChevronDown className={cn("h-3 w-3 transition-transform duration-300 text-argent group-hover:text-white", isIpaActive && "text-white", isIpaOpen && "rotate-180")} />
+                <ChevronDown className={cn("h-3 w-3 transition-transform duration-300 text-argent group-hover:text-foreground", isIpaActive && "text-foreground", isIpaOpen && "rotate-180")} />
                 {isIpaActive && (
                   <span className="absolute bottom-0 left-3 right-3 h-0.5 bg-argent rounded-full shadow-[0_0_8px_#C0C2C0]" />
                 )}
@@ -139,12 +140,12 @@ export default function Navbar() {
                     >
                       <div className={cn(
                         "p-2 rounded-lg bg-quartz/10 border border-quartz/20 group-hover:bg-quartz/20 transition-all shrink-0",
-                        isActive ? "border-argent text-white" : "text-argent"
+                        isActive ? "border-argent text-foreground" : "text-argent group-hover:text-foreground"
                       )}>
                         <Icon className="h-4 w-4" />
                       </div>
                       <div className="flex flex-col gap-0.5 min-w-0">
-                        <span className="font-bold text-xs text-foreground group-hover:text-white transition-colors truncate">{item.label}</span>
+                        <span className="font-bold text-xs text-foreground group-hover:text-foreground transition-colors truncate">{item.label}</span>
                         <span className="text-[10px] leading-normal text-dimgray group-hover:text-muted-foreground transition-colors line-clamp-2">{item.description}</span>
                       </div>
                     </Link>
@@ -169,9 +170,9 @@ export default function Navbar() {
                     : "hover:bg-quartz/10 text-muted-foreground hover:text-foreground"
                 )}
               >
-                <CustomAndroidIcon className={cn("h-4 w-4 transition-transform group-hover:scale-110", isApkActive ? "text-white" : "text-argent")} />
+                <CustomAndroidIcon className={cn("h-4 w-4 transition-transform group-hover:scale-110", isApkActive ? "text-foreground" : "text-argent group-hover:text-foreground")} />
                 <span>Android APK</span>
-                <ChevronDown className={cn("h-3 w-3 transition-transform duration-300 text-argent group-hover:text-white", isApkActive && "text-white", isApkOpen && "rotate-180")} />
+                <ChevronDown className={cn("h-3 w-3 transition-transform duration-300 text-argent group-hover:text-foreground", isApkActive && "text-foreground", isApkOpen && "rotate-180")} />
                 {isApkActive && (
                   <span className="absolute bottom-0 left-3 right-3 h-0.5 bg-argent rounded-full shadow-[0_0_8px_#C0C2C0]" />
                 )}
@@ -201,12 +202,12 @@ export default function Navbar() {
                     >
                       <div className={cn(
                         "p-2 rounded-lg bg-quartz/10 border border-quartz/20 group-hover:bg-quartz/20 transition-all shrink-0",
-                        isActive ? "border-argent text-white" : "text-argent"
+                        isActive ? "border-argent text-foreground" : "text-argent group-hover:text-foreground"
                       )}>
                         <Icon className="h-4 w-4" />
                       </div>
                       <div className="flex flex-col gap-0.5 min-w-0">
-                        <span className="font-bold text-xs text-foreground group-hover:text-white transition-colors truncate">{item.label}</span>
+                        <span className="font-bold text-xs text-foreground group-hover:text-foreground transition-colors truncate">{item.label}</span>
                         <span className="text-[10px] leading-normal text-dimgray group-hover:text-muted-foreground transition-colors line-clamp-2">{item.description}</span>
                       </div>
                     </Link>
@@ -231,9 +232,9 @@ export default function Navbar() {
                     : "hover:bg-quartz/10 text-muted-foreground hover:text-foreground"
                 )}
               >
-                <PenTool className={cn("h-4 w-4 transition-transform group-hover:scale-110", isSignersActive ? "text-white" : "text-argent")} />
+                <PenTool className={cn("h-4 w-4 transition-transform group-hover:scale-110", isSignersActive ? "text-foreground" : "text-argent group-hover:text-foreground")} />
                 <span>Signers</span>
-                <ChevronDown className={cn("h-3 w-3 transition-transform duration-300 text-argent group-hover:text-white", isSignersActive && "text-white", isSignersOpen && "rotate-180")} />
+                <ChevronDown className={cn("h-3 w-3 transition-transform duration-300 text-argent group-hover:text-foreground", isSignersActive && "text-foreground", isSignersOpen && "rotate-180")} />
                 {isSignersActive && (
                   <span className="absolute bottom-0 left-3 right-3 h-0.5 bg-argent rounded-full shadow-[0_0_8px_#C0C2C0]" />
                 )}
@@ -263,12 +264,12 @@ export default function Navbar() {
                     >
                       <div className={cn(
                         "p-2 rounded-lg bg-quartz/10 border border-quartz/20 group-hover:bg-quartz/20 transition-all shrink-0",
-                        isActive ? "border-argent text-white" : "text-argent"
+                        isActive ? "border-argent text-foreground" : "text-argent group-hover:text-foreground"
                       )}>
                         <Icon className="h-4 w-4" />
                       </div>
                       <div className="flex flex-col gap-0.5 min-w-0">
-                        <span className="font-bold text-xs text-foreground group-hover:text-white transition-colors truncate">{item.label}</span>
+                        <span className="font-bold text-xs text-foreground group-hover:text-foreground transition-colors truncate">{item.label}</span>
                         <span className="text-[10px] leading-normal text-dimgray group-hover:text-muted-foreground transition-colors line-clamp-2">{item.description}</span>
                       </div>
                     </Link>
@@ -292,17 +293,11 @@ export default function Navbar() {
             </kbd>
           </button>
 
-          <a
-            href="/api/scrape"
-            target="_blank"
-            className="flex items-center gap-2 rounded-full bg-argent/10 px-4 py-1.5 text-[10px] font-black uppercase tracking-[0.15em] text-argent border border-argent/25 hover:bg-argent/20 transition-all hover:shadow-[0_0_20px_rgba(192,194,192,0.15)] active:scale-95"
-          >
-            <div className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-argent opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-argent shadow-[0_0_8px_#C0C2C0]"></span>
-            </div>
-            <span>Scrape Live</span>
-          </a>
+          {/* Theme Toggle Switcher */}
+          <ThemeToggle />
+
+          {/* Smart Device Detect / Intelligence */}
+          <SmartDeviceDetect variant="navbar" />
         </div>
       </div>
     </header>

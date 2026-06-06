@@ -151,7 +151,7 @@ export default function PaginatedListingView({
                 >
                   <div className="flex flex-col gap-3">
                     {/* App Icon Container */}
-                    <div className="relative aspect-square w-full overflow-hidden rounded-2xl border border-border/40 bg-card/80 shadow-md">
+                    <div className="relative h-16 w-16 sm:h-20 sm:w-20 overflow-hidden rounded-2xl border border-border/40 bg-card/80 shadow-md flex-shrink-0">
                       {app.iconUrl ? (
                         <img 
                           src={app.iconUrl} 
@@ -161,35 +161,35 @@ export default function PaginatedListingView({
                         />
                       ) : (
                         <div className="flex h-full w-full items-center justify-center bg-card text-muted-foreground">
-                          {isAndroid ? <CustomAndroidIcon className="h-10 w-10 text-almond" /> : <CustomAppleIcon className="h-10 w-10 text-matcha" />}
+                          {isAndroid ? <CustomAndroidIcon className="h-8 w-8 text-almond" /> : <CustomAppleIcon className="h-8 w-8 text-matcha" />}
                         </div>
                       )}
                       
                       {/* Platform Tag */}
-                      <div className="absolute right-2 top-2 rounded-full p-1 bg-black/75 border border-border/30 backdrop-blur-md">
+                      <div className="absolute right-1 top-1 rounded-full p-1 bg-black/75 border border-border/30 backdrop-blur-md">
                         {isAndroid ? (
-                          <CustomAndroidIcon className="h-3 w-3 text-almond" />
+                          <CustomAndroidIcon className="h-2.5 w-2.5 text-almond" />
                         ) : (
-                          <CustomAppleIcon className="h-3 w-3 text-matcha" />
+                          <CustomAppleIcon className="h-2.5 w-2.5 text-matcha" />
                         )}
                       </div>
-
-                      {/* Mod Label */}
-                      {app.badge && (
-                        <div className="absolute left-2 bottom-2 rounded-md bg-almond px-1.5 py-0.5 text-[9px] font-black uppercase text-eclipse shadow-md">
-                          {app.badge}
-                        </div>
-                      )}
                     </div>
 
                     {/* App Details */}
                     <div className="flex flex-col gap-1 px-1">
+                      <div className="flex items-center gap-1.5 flex-wrap">
+                        <p className="text-[11px] text-muted-foreground font-semibold line-clamp-1">
+                          {app.category}
+                        </p>
+                        {app.badge && (
+                          <span className="rounded-md bg-almond px-1.5 py-0.5 text-[9px] font-black uppercase text-eclipse">
+                            {app.badge}
+                          </span>
+                        )}
+                      </div>
                       <h3 className="font-bold text-foreground text-sm line-clamp-1 group-hover:text-almond transition-colors leading-tight">
                         {app.title}
                       </h3>
-                      <p className="text-[11px] text-muted-foreground font-semibold line-clamp-1">
-                        {app.category}
-                      </p>
                     </div>
                   </div>
 
