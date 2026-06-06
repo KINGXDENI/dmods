@@ -44,7 +44,7 @@ export default async function LandingPage() {
   return (
     <main className="flex-1 bg-background text-foreground flex flex-col relative overflow-hidden pb-24">
       {/* Abstract Grid background overlay */}
-      <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(167,167,167,0.02)_1px,transparent_1px),linear-gradient(to_bottom,rgba(167,167,167,0.02)_1px,transparent_1px)] bg-[size:4rem_4rem] pointer-events-none" />
+      <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(90,90,90,0.04)_1px,transparent_1px),linear-gradient(to_bottom,rgba(90,90,90,0.04)_1px,transparent_1px)] dark:bg-[linear-gradient(to_right,rgba(167,167,167,0.03)_1px,transparent_1px),linear-gradient(to_bottom,rgba(167,167,167,0.03)_1px,transparent_1px)] bg-[size:4rem_4rem] pointer-events-none" />
       <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-argent/5 blur-[120px] rounded-full pointer-events-none" />
 
       {/* 1. HERO SECTION */}

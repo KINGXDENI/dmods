@@ -228,7 +228,7 @@ export default function RemoteSignerClient() {
   return (
     <main className="flex-1 bg-background text-foreground flex flex-col relative overflow-hidden pb-24 pt-8 px-4 sm:px-6">
       {/* Abstract glow overlays */}
-      <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(167,167,167,0.01)_1px,transparent_1px),linear-gradient(to_bottom,rgba(167,167,167,0.01)_1px,transparent_1px)] bg-[size:4rem_4rem] pointer-events-none" />
+      <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(90,90,90,0.03)_1px,transparent_1px),linear-gradient(to_bottom,rgba(90,90,90,0.03)_1px,transparent_1px)] dark:bg-[linear-gradient(to_right,rgba(167,167,167,0.01)_1px,transparent_1px),linear-gradient(to_bottom,rgba(167,167,167,0.01)_1px,transparent_1px)] bg-[size:4rem_4rem] pointer-events-none" />
       <div className="absolute top-1/4 left-1/3 w-[450px] h-[450px] bg-argent/5 blur-[120px] rounded-full pointer-events-none" />
 
       <div className="mx-auto max-w-2xl w-full flex flex-col gap-8 relative z-10">
