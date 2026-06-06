@@ -92,11 +92,11 @@ export async function GET(request: NextRequest) {
       identifier: 'com.kingxdeni.dmods.scarlet',
       sourceURL: `${baseUrl}/api/repo/scarlet?page=${segment}`,
       website: baseUrl,
-      iconURL: `${baseUrl}/logo.png`,
-      headerURL: `${baseUrl}/logo.png`,
+      iconURL: `${baseUrl}/logos.png`,
+      headerURL: `${baseUrl}/logos.png`,
       META: {
         repoName: segment > 1 ? `DMods Scarlet Repository (Page ${segment})` : 'DMods Scarlet Repository',
-        repoIcon: `${baseUrl}/logo.png`
+        repoIcon: `${baseUrl}/logos.png`
       },
       apps: mappedApps,
       Tweaked: mappedApps // Scarlet compatibility

@@ -92,11 +92,11 @@ export async function GET(request: NextRequest) {
       identifier: 'com.kingxdeni.dmods.esign',
       sourceURL: `${baseUrl}/api/repo/esign?page=${segment}`,
       website: baseUrl,
-      iconURL: `${baseUrl}/logo.png`,
-      headerURL: `${baseUrl}/logo.png`,
+      iconURL: `${baseUrl}/logos.png`,
+      headerURL: `${baseUrl}/logos.png`,
       META: {
         repoName: segment > 1 ? `DMods ESign Repository (Page ${segment})` : 'DMods ESign Repository',
-        repoIcon: `${baseUrl}/logo.png`
+        repoIcon: `${baseUrl}/logos.png`
       },
       apps: mappedApps,
       Tweaked: mappedApps // Scarlet compatibility

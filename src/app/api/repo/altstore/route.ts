@@ -92,11 +92,11 @@ export async function GET(request: NextRequest) {
       identifier: 'com.kingxdeni.dmods',
       sourceURL: `${baseUrl}/api/repo/altstore?page=${segment}`,
       website: baseUrl,
-      iconURL: `${baseUrl}/logo.png`,
-      headerURL: `${baseUrl}/logo.png`,
+      iconURL: `${baseUrl}/logos.png`,
+      headerURL: `${baseUrl}/logos.png`,
       META: {
         repoName: segment > 1 ? `DMods Repository (Page ${segment})` : 'DMods Repository',
-        repoIcon: `${baseUrl}/logo.png`
+        repoIcon: `${baseUrl}/logos.png`
       },
       apps: altStoreApps,
       Tweaked: altStoreApps // Scarlet compatibility
