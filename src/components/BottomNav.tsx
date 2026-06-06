@@ -46,10 +46,12 @@ export default function BottomNav() {
       label: 'Signers', 
       icon: PenTool, 
       iconColor: 'text-white',
-      isActive: ['/esign', '/ksign'].includes(pathname),
+      isActive: ['/esign', '/ksign', '/signer', '/repo'].includes(pathname),
       subItems: [
         { href: '/esign', label: 'ESign iOS' },
-        { href: '/ksign', label: 'KSign iOS' }
+        { href: '/ksign', label: 'KSign iOS' },
+        { href: '/signer', label: 'Remote Signer' },
+        { href: '/repo', label: 'Repo Sources' }
       ]
     }
   ];
