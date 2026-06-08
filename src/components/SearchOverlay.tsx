@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from 'react';
 import { Search, X, Zap, ArrowRight, Loader2, Sparkles, AlertCircle } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { cn } from '@/lib/utils';
+import AppIcon from '@/components/AppIcon';
 
 export default function SearchOverlay() {
   const [isOpen, setIsOpen] = useState(false);
@@ -152,7 +153,12 @@ export default function SearchOverlay() {
                     style={{ animationDelay: `${idx * 50}ms` }}
                   >
                     <div className="h-12 w-12 rounded-2xl overflow-hidden border border-quartz/30 bg-jet shrink-0">
-                      <img src={app.iconUrl} alt="" className="h-full w-full object-cover group-hover:scale-110 transition-transform" />
+                      <AppIcon 
+                        src={app.iconUrl} 
+                        alt={app.title}
+                        platform={app.platform}
+                        className="h-full w-full object-cover group-hover:scale-110 transition-transform"
+                      />
                     </div>
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2">

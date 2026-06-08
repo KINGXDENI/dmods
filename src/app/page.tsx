@@ -4,6 +4,7 @@ import { CustomAppleIcon, CustomAndroidIcon } from '@/components/CustomIcons';
 import { ShieldCheck, Cpu, Terminal, ArrowRight, Activity, ChevronRight } from 'lucide-react';
 import type { Metadata } from 'next';
 import { constructMetadata } from '@/lib/metadata';
+import AppIcon from '@/components/AppIcon';
 
 export const revalidate = 3600; // Cache landing page for 1 hour
 
@@ -116,22 +117,12 @@ export default async function LandingPage() {
                 <div className="flex flex-col gap-4">
                   {/* App Icon Container */}
                   <div className="relative h-16 w-16 sm:h-20 sm:w-20 overflow-hidden rounded-[1.25rem] border border-quartz/40 bg-charleston/60 shadow-md flex-shrink-0">
-                    {app.iconUrl ? (
-                      <img 
-                        src={app.iconUrl} 
-                        alt={app.title}
-                        className="h-full w-full object-cover group-hover:scale-105 transition-transform duration-500"
-                        loading="lazy"
-                      />
-                    ) : (
-                      <div className="flex h-full w-full items-center justify-center bg-charleston text-dimgray">
-                        {app.platformType === 'ios' ? (
-                          <CustomAppleIcon className="h-8 w-8 text-argent" />
-                        ) : (
-                          <CustomAndroidIcon className="h-8 w-8 text-argent" />
-                        )}
-                      </div>
-                    )}
+                    <AppIcon 
+                      src={app.iconUrl} 
+                      alt={app.title}
+                      platform={app.platformType}
+                      className="h-full w-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    />
                     
                     {/* Platform Tag */}
                     <div className="absolute right-1 top-1 rounded-full p-1 bg-card/90 border border-quartz/30 backdrop-blur-md">

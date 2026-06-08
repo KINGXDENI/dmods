@@ -7,6 +7,7 @@ import { CustomAppleIcon, CustomAndroidIcon } from '@/components/CustomIcons';
 import type { ScrapeResult } from '@/lib/scraper';
 import SmartDeviceDetect from '@/components/SmartDeviceDetect';
 import { cn } from '@/lib/utils';
+import AppIcon from '@/components/AppIcon';
 
 interface ListingViewProps {
   initialData: ScrapeResult;
@@ -107,17 +108,12 @@ export default function ListingView({ initialData }: ListingViewProps) {
                 <div className="flex justify-between items-start gap-4">
                   <div className="flex items-center gap-4">
                     <div className="relative h-16 w-16 overflow-hidden rounded-2xl border border-border/40 bg-card shadow-lg">
-                      {app.iconUrl ? (
-                        <img 
-                          src={app.iconUrl} 
-                          alt={app.title}
-                          className="h-full w-full object-cover group-hover:scale-110 transition-transform duration-300"
-                        />
-                      ) : (
-                        <div className="flex h-full w-full items-center justify-center bg-card text-muted-foreground">
-                          {app.platformType === 'ios' ? <CustomAppleIcon className="h-8 w-8 text-matcha" /> : <CustomAndroidIcon className="h-8 w-8 text-almond" />}
-                        </div>
-                      )}
+                      <AppIcon 
+                        src={app.iconUrl} 
+                        alt={app.title}
+                        platform={app.platformType}
+                        className="h-full w-full object-cover group-hover:scale-110 transition-transform duration-300"
+                      />
                     </div>
                     <div>
                       <span className="text-[10px] uppercase font-black text-almond px-2.5 py-0.5 rounded-full bg-forest/40 border border-matcha/40">
@@ -247,18 +243,12 @@ export default function ListingView({ initialData }: ListingViewProps) {
                 <div className="flex flex-col gap-3">
                   {/* App Icon Container */}
                   <div className="relative h-16 w-16 sm:h-20 sm:w-20 overflow-hidden rounded-2xl border border-border/40 bg-card shadow-md flex-shrink-0">
-                    {app.iconUrl ? (
-                      <img 
-                        src={app.iconUrl} 
-                        alt={app.title}
-                        className="h-full w-full object-cover group-hover:scale-105 transition-transform duration-300"
-                        loading="lazy"
-                      />
-                    ) : (
-                      <div className="flex h-full w-full items-center justify-center bg-card text-muted-foreground">
-                        {app.platformType === 'ios' ? <CustomAppleIcon className="h-8 w-8 text-matcha" /> : <CustomAndroidIcon className="h-8 w-8 text-almond" />}
-                      </div>
-                    )}
+                    <AppIcon 
+                      src={app.iconUrl} 
+                      alt={app.title}
+                      platform={app.platformType}
+                      className="h-full w-full object-cover group-hover:scale-105 transition-transform duration-300"
+                    />
                     
                     {/* Platform Tag */}
                     <div className="absolute right-1 top-1 rounded-full p-1 bg-white dark:bg-[#181818] border border-border/50 dark:border-border/30 shadow-sm flex items-center justify-center">

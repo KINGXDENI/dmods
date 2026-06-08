@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { ChevronLeft, Download, ShieldCheck, Calendar, Cpu, HardDrive, User, Tag, ExternalLink, PenTool, Share2, Terminal, Loader2, Check, Sparkles, Link as LinkIcon, Trash2, UploadCloud, ShieldAlert } from 'lucide-react';
 import { CustomAndroidIcon } from '@/components/CustomIcons';
 import { cn } from '@/lib/utils';
+import AppIcon from '@/components/AppIcon';
 
 interface InteractiveAppDetailProps {
   data: any;
@@ -356,13 +357,17 @@ export default function InteractiveAppDetail({ data, targetPath, isDownloadPage 
               </Link>
 
               <div className="flex flex-col sm:flex-row gap-6 items-start sm:items-center">
-                {data.iconUrl && (
-                  <div className="relative h-24 w-24 overflow-hidden rounded-[2.2rem] border border-quartz/50 bg-jet shadow-[0_25px_50px_-12px_rgba(0,0,0,0.5)] shrink-0 p-1">
-                    <div className="h-full w-full rounded-[1.8rem] overflow-hidden relative">
-                      <img src={data.iconUrl} alt={data.appName} className="h-full w-full object-cover" />      
-                    </div>
+                <div className="relative h-24 w-24 overflow-hidden rounded-[2.2rem] border border-quartz/50 bg-jet shadow-[0_25px_50px_-12px_rgba(0,0,0,0.5)] shrink-0 p-1">
+                  <div className="h-full w-full rounded-[1.8rem] overflow-hidden relative">
+                    <AppIcon 
+                      src={data.iconUrl} 
+                      alt={data.appName} 
+                      platform={isAndroid ? 'android' : 'ios'} 
+                      className="h-full w-full object-cover"
+                      textClassName="text-lg"
+                    />      
                   </div>
-                )}
+                </div>
                 <div className="flex flex-col gap-2">
                   <div className="flex items-center gap-2">
                     <span className="w-2 h-2 rounded-full bg-argent animate-pulse shadow-[0_0_8px_#A7A7A7]" />  
@@ -715,7 +720,13 @@ export default function InteractiveAppDetail({ data, targetPath, isDownloadPage 
               <div className="group relative h-44 w-44 md:h-52 md:w-52 overflow-hidden rounded-[3.5rem] border border-quartz/60 bg-jet shadow-[0_40px_80px_-20px_rgba(0,0,0,0.6)] shrink-0 p-1.5 transition-all duration-700 hover:scale-[1.05] hover:rotate-2">
                 <div className="h-full w-full rounded-[3rem] overflow-hidden bg-jet flex items-center justify-center relative">
                   <div className="absolute top-4 right-4 z-10"><div className="px-3 py-1 rounded-full bg-jet/80 backdrop-blur-md border border-quartz/40 shadow-xl"><span className="text-[10px] font-black uppercase tracking-widest text-argent">{isAndroid ? 'APK' : 'IPA'}</span></div></div>
-                  {data.iconUrl ? <img src={data.iconUrl} alt={data.appName} className="h-full w-full object-cover" /> : <span className="text-7xl font-black text-argent uppercase">{data.appName.charAt(0) || '?'}</span>}    
+                  <AppIcon 
+                    src={data.iconUrl} 
+                    alt={data.appName} 
+                    platform={isAndroid ? 'android' : 'ios'} 
+                    className="h-full w-full object-cover" 
+                    textClassName="text-5xl md:text-7xl"
+                  />
                   <div className="absolute inset-0 bg-gradient-to-tr from-black/40 via-transparent to-white/10 pointer-events-none" />
                 </div>
               </div>

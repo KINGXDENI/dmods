@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import { Search, ChevronLeft, ChevronRight } from 'lucide-react';
 import { CustomAppleIcon, CustomAndroidIcon } from '@/components/CustomIcons';
 import type { ScrapedApp } from '@/lib/scraper';
+import AppIcon from '@/components/AppIcon';
 
 interface CategoryItem {
   text: string;
@@ -152,18 +153,12 @@ export default function PaginatedListingView({
                   <div className="flex flex-col gap-3">
                     {/* App Icon Container */}
                     <div className="relative h-16 w-16 sm:h-20 sm:w-20 overflow-hidden rounded-2xl border border-border/40 bg-card/80 shadow-md flex-shrink-0">
-                      {app.iconUrl ? (
-                        <img 
-                          src={app.iconUrl} 
-                          alt={app.title}
-                          className="h-full w-full object-cover group-hover:scale-105 transition-transform duration-300"
-                          loading="lazy"
-                        />
-                      ) : (
-                        <div className="flex h-full w-full items-center justify-center bg-card text-muted-foreground">
-                          {isAndroid ? <CustomAndroidIcon className="h-8 w-8 text-almond" /> : <CustomAppleIcon className="h-8 w-8 text-matcha" />}
-                        </div>
-                      )}
+                      <AppIcon 
+                        src={app.iconUrl} 
+                        alt={app.title}
+                        platform={isAndroid ? 'android' : 'ios'}
+                        className="h-full w-full object-cover group-hover:scale-105 transition-transform duration-300"
+                      />
                       
                       {/* Platform Tag */}
                       <div className="absolute right-1 top-1 rounded-full p-1 bg-white dark:bg-[#181818] border border-border/50 dark:border-border/30 shadow-sm flex items-center justify-center">
