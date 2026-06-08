@@ -7,7 +7,6 @@ import { Home, Search, PenTool, ChevronDown, Database } from 'lucide-react';
 import { CustomAppleIcon, CustomAndroidIcon } from '@/components/CustomIcons';
 import { cn } from '@/lib/utils';
 import ThemeToggle from '@/components/ThemeToggle';
-import SmartDeviceDetect from '@/components/SmartDeviceDetect';
 
 export default function Navbar() {
   const pathname = usePathname();
@@ -295,9 +294,6 @@ export default function Navbar() {
 
           {/* Theme Toggle Switcher */}
           <ThemeToggle />
-
-          {/* Smart Device Detect / Intelligence */}
-          <SmartDeviceDetect variant="navbar" />
         </div>
       </div>
     </header>
