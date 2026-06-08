@@ -47,7 +47,7 @@ export default function LiveActivity() {
   }, []);
 
   return (
-    <div className="fixed bottom-20 right-4 z-50 flex flex-col gap-2 pointer-events-none sm:bottom-6 sm:right-6">
+    <div className="fixed top-20 left-4 right-4 sm:left-auto sm:right-6 sm:w-80 z-50 flex flex-col gap-2 pointer-events-none">
       {activities.map((activity) => (
         <div
           key={activity.id}

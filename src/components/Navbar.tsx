@@ -51,7 +51,7 @@ export default function Navbar() {
     { href: '/signer', label: 'Remote Signer', description: 'Sideload iOS IPA by download URL', icon: PenTool },
     { href: '/esign', label: 'ESign iOS', description: 'On-device enterprise signing app', icon: CustomAppleIcon },
     { href: '/ksign', label: 'KSign iOS', description: 'Alternative certificate IPA signer', icon: CustomAppleIcon },
-    { href: '/repo', label: 'Repo Sources', description: 'AltStore, Scarlet & ESign repositories', icon: Database },
+    { href: '/repo', label: 'Repo Sources', description: 'AltStore, ESign & KSign repositories', icon: Database },
   ];
 
   const isIpaActive = ipaItems.some(item => pathname === item.href);
@@ -102,7 +102,7 @@ export default function Navbar() {
               <button
                 onClick={() => setIsIpaOpen(!isIpaOpen)}
                 className={cn(
-                  "flex items-center gap-1.5 rounded-lg px-3 py-2 transition-all duration-300 relative group cursor-pointer text-sm font-semibold",
+                  "flex items-center gap-1.5 rounded-lg px-3 py-2 transition-all duration-300 relative group cursor-pointer text-sm font-semibold focus:outline-none focus-visible:outline-none",
                   isIpaActive 
                     ? "text-foreground bg-quartz/20 shadow-inner" 
                     : "hover:bg-quartz/10 text-muted-foreground hover:text-foreground"
@@ -164,7 +164,7 @@ export default function Navbar() {
               <button
                 onClick={() => setIsApkOpen(!isApkOpen)}
                 className={cn(
-                  "flex items-center gap-1.5 rounded-lg px-3 py-2 transition-all duration-300 relative group cursor-pointer text-sm font-semibold",
+                  "flex items-center gap-1.5 rounded-lg px-3 py-2 transition-all duration-300 relative group cursor-pointer text-sm font-semibold focus:outline-none focus-visible:outline-none",
                   isApkActive 
                     ? "text-foreground bg-quartz/20 shadow-inner" 
                     : "hover:bg-quartz/10 text-muted-foreground hover:text-foreground"
@@ -226,7 +226,7 @@ export default function Navbar() {
               <button
                 onClick={() => setIsSignersOpen(!isSignersOpen)}
                 className={cn(
-                  "flex items-center gap-1.5 rounded-lg px-3 py-2 transition-all duration-300 relative group cursor-pointer text-sm font-semibold",
+                  "flex items-center gap-1.5 rounded-lg px-3 py-2 transition-all duration-300 relative group cursor-pointer text-sm font-semibold focus:outline-none focus-visible:outline-none",
                   isSignersActive 
                     ? "text-foreground bg-quartz/20 shadow-inner" 
                     : "hover:bg-quartz/10 text-muted-foreground hover:text-foreground"

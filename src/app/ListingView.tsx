@@ -6,6 +6,7 @@ import { Search, ArrowRight, Download, ShieldCheck, Flame, Cpu, Compass } from '
 import { CustomAppleIcon, CustomAndroidIcon } from '@/components/CustomIcons';
 import type { ScrapeResult } from '@/lib/scraper';
 import SmartDeviceDetect from '@/components/SmartDeviceDetect';
+import { cn } from '@/lib/utils';
 
 interface ListingViewProps {
   initialData: ScrapeResult;
@@ -101,7 +102,7 @@ export default function ListingView({ initialData }: ListingViewProps) {
             {finalFeatured.map((app, index) => (
               <div 
                 key={app.detailUrl + index}
-                className="group relative overflow-hidden rounded-3xl border border-border/30 bg-card p-6 flex flex-col justify-between h-64 hover:border-almond/40 transition-all duration-300"
+                className="group relative overflow-hidden rounded-3xl border border-border/30 bg-card p-6 flex flex-col justify-between h-64 hover:border-almond/40 transition-all duration-300 hover:scale-[1.02] hover:-translate-y-1 hover:shadow-xl dark:hover:shadow-black/40"
               >
                 <div className="flex justify-between items-start gap-4">
                   <div className="flex items-center gap-4">
@@ -179,7 +180,7 @@ export default function ListingView({ initialData }: ListingViewProps) {
         {/* Tab Filters */}
         <div className="flex items-center bg-card/30 p-1.5 rounded-xl border border-border/40 w-fit">
           <button
-            onClick={() => setActiveTab('all')}
+            onClick={() => startTransition(() => setActiveTab('all'))}
             className={`flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs font-bold transition-all cursor-pointer ${
               activeTab === 'all' 
                 ? 'bg-almond text-eclipse shadow-md font-bold' 
@@ -191,7 +192,7 @@ export default function ListingView({ initialData }: ListingViewProps) {
             <span>All</span>
           </button>
           <button
-            onClick={() => setActiveTab('ios')}
+            onClick={() => startTransition(() => setActiveTab('ios'))}
             className={`flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs font-bold transition-all cursor-pointer ${
               activeTab === 'ios' 
                 ? 'bg-almond text-eclipse shadow-md font-bold' 
@@ -203,7 +204,7 @@ export default function ListingView({ initialData }: ListingViewProps) {
             <span>iOS IPA</span>
           </button>
           <button
-            onClick={() => setActiveTab('android')}
+            onClick={() => startTransition(() => setActiveTab('android'))}
             className={`flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs font-bold transition-all cursor-pointer ${
               activeTab === 'android' 
                 ? 'bg-almond text-eclipse shadow-md font-bold' 
@@ -233,12 +234,15 @@ export default function ListingView({ initialData }: ListingViewProps) {
             <p className="text-muted-foreground text-sm">No applications found matching "{searchQuery}"</p>
           </div>
         ) : (
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+          <div className={cn(
+            "grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 transition-all duration-300",
+            isPending ? "opacity-50 scale-[0.99]" : "opacity-100 scale-100"
+          )}>
             {filteredApps.map((app, index) => (
               <Link
                 key={app.detailUrl + '-' + index}
                 href={getLocalPath(app.detailUrl)}
-                className="group flex flex-col justify-between rounded-2xl border border-border/30 bg-card/25 p-3 hover:border-border/70 hover:bg-card/65 transition-all duration-200"
+                className="group flex flex-col justify-between rounded-2xl border border-border/30 bg-card/25 p-3 hover:border-border/70 hover:bg-card/65 transition-all duration-300 hover:scale-[1.02] hover:-translate-y-1 hover:shadow-lg dark:hover:shadow-black/30"
               >
                 <div className="flex flex-col gap-3">
                   {/* App Icon Container */}
@@ -307,21 +311,21 @@ export default function ListingView({ initialData }: ListingViewProps) {
             All listing data is dynamically parsed from verified community archives to provide you with the most up-to-date versions of tweak packages, modifications, sideloading certificates, and IPA/APK apps.
           </p>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
-            <div className="flex flex-col gap-2 p-5 rounded-2xl bg-card/30 border border-border/40">
+            <div className="md:h-48 w-full flex flex-col gap-2 p-5 rounded-2xl bg-card/30 border border-border/40">
               <ShieldCheck className="h-6 w-6 text-almond" />
               <h4 className="font-bold text-foreground text-sm mt-1">Safe Downloads</h4>
               <p className="text-muted-foreground text-xs leading-normal">
                 Direct access to CDNs and developer repos. We show certificate verification status.
               </p>
             </div>
-            <div className="flex flex-col gap-2 p-5 rounded-2xl bg-card/30 border border-border/40">
+            <div className="md:h-48 w-full flex flex-col gap-2 p-5 rounded-2xl bg-card/30 border border-border/40">
               <Cpu className="h-6 w-6 text-almond" />
               <h4 className="font-bold text-foreground text-sm mt-1">Auto-Sign Services</h4>
               <p className="text-muted-foreground text-xs leading-normal">
                 Features automatic remote signing APIs for iOS installations right from your mobile browser.
               </p>
             </div>
-            <div className="flex flex-col gap-2 p-5 rounded-2xl bg-card/30 border border-border/40">
+            <div className="md:h-48 w-full flex flex-col gap-2 p-5 rounded-2xl bg-card/30 border border-border/40">
               <CustomAndroidIcon className="h-6 w-6 text-almond" />
               <h4 className="font-bold text-foreground text-sm mt-1">Mobile First</h4>
               <p className="text-muted-foreground text-xs leading-normal">

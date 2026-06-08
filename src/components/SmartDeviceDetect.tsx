@@ -449,15 +449,15 @@ export default function SmartDeviceDetect({ variant = 'navbar', onDetect }: Smar
                   <>
                     <li className="flex items-center gap-2">
                       <CheckCircle2 className="h-3.5 w-3.5 text-matcha shrink-0" />
-                      <span>Auto-focused Mod catalog on **iOS IPA** apps & games.</span>
+                      <span>Auto-focused Mod catalog on <strong className="font-bold text-foreground">iOS IPA</strong> apps & games.</span>
                     </li>
                     <li className="flex items-center gap-2">
                       <CheckCircle2 className="h-3.5 w-3.5 text-matcha shrink-0" />
-                      <span>Use our **KSign** or **ESign** remote signer tools.</span>
+                      <span>Use our <strong className="font-bold text-foreground">KSign</strong> or <strong className="font-bold text-foreground">ESign</strong> remote signer tools.</span>
                     </li>
                     <li className="flex items-center gap-2">
                       <Check className="h-3.5 w-3.5 text-argent shrink-0" />
-                      <span>Supports AltStore, Scarlet, or direct TrollStore installation.</span>
+                      <span>Supports AltStore, ESign, KSign, or direct TrollStore installation.</span>
                     </li>
                   </>
                 )}
@@ -465,7 +465,7 @@ export default function SmartDeviceDetect({ variant = 'navbar', onDetect }: Smar
                   <>
                     <li className="flex items-center gap-2">
                       <CheckCircle2 className="h-3.5 w-3.5 text-matcha shrink-0" />
-                      <span>Auto-focused Mod catalog on **Android APK** files.</span>
+                      <span>Auto-focused Mod catalog on <strong className="font-bold text-foreground">Android APK</strong> files.</span>
                     </li>
                     <li className="flex items-center gap-2">
                       <CheckCircle2 className="h-3.5 w-3.5 text-matcha shrink-0" />
@@ -473,7 +473,7 @@ export default function SmartDeviceDetect({ variant = 'navbar', onDetect }: Smar
                     </li>
                     <li className="flex items-center gap-2">
                       <Check className="h-3.5 w-3.5 text-argent shrink-0" />
-                      <span>Toggle on **"Install Unknown Sources"** in Android Settings.</span>
+                      <span>Toggle on <strong className="font-bold text-foreground">"Install Unknown Sources"</strong> in Android Settings.</span>
                     </li>
                   </>
                 )}

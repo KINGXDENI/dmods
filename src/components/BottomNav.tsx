@@ -88,7 +88,7 @@ export default function BottomNav() {
                           href={sub.href}
                           onClick={() => setActiveMenu(null)}
                           className={cn(
-                            "w-full px-3 py-2.5 rounded-xl text-left text-[9px] font-black uppercase tracking-wider transition-all",
+                            "w-full px-3 py-2.5 rounded-xl text-left text-[9px] font-black uppercase tracking-wider transition-all focus:outline-none focus-visible:outline-none",
                             isSubActive 
                               ? "bg-argent text-thamar font-black" 
                               : "text-muted-foreground hover:text-argent active:text-white hover:bg-quartz/10"
@@ -106,7 +106,7 @@ export default function BottomNav() {
                   <Link 
                     href={item.href}
                     className={cn(
-                      "flex flex-col items-center justify-center gap-1 w-full h-12 rounded-xl transition-all duration-300 relative",
+                      "flex flex-col items-center justify-center gap-1 w-full h-12 rounded-xl transition-all duration-300 relative focus:outline-none focus-visible:outline-none",
                       isActive 
                         ? "text-argent bg-quartz/10" 
                         : "text-muted-foreground hover:text-argent active:text-argent"
@@ -126,8 +126,8 @@ export default function BottomNav() {
                     type="button"
                     onClick={() => setActiveMenu(activeMenu === item.id ? null : (item.id as any))}
                     className={cn(
-                      "flex flex-col items-center justify-center gap-1 w-full h-12 rounded-xl transition-all duration-300 relative cursor-pointer",
-                      isActive 
+                      "flex flex-col items-center justify-center gap-1 w-full h-12 rounded-xl transition-all duration-300 relative cursor-pointer focus:outline-none focus-visible:outline-none",
+                      isActive || activeMenu === item.id
                         ? "text-argent bg-quartz/10" 
                         : "text-muted-foreground hover:text-argent active:text-argent"
                     )}
@@ -137,10 +137,10 @@ export default function BottomNav() {
                       <div className="absolute -top-2 w-8 h-1 bg-argent rounded-full shadow-[0_0_12px_#A7A7A7]" />
                     )}
                     <div className="relative flex items-center justify-center">
-                      <Icon className={cn("h-5 w-5 transition-all", isActive ? "scale-110 " + (item.iconColor || "text-white") : "text-argent")} />
+                      <Icon className={cn("h-5 w-5 transition-all", isActive || activeMenu === item.id ? "scale-110 " + (item.iconColor || "text-white") : "text-argent")} />
                       <ChevronUp className={cn("h-3 w-3 ml-0.5 opacity-60 transition-transform duration-200", activeMenu === item.id && "rotate-180")} />
                     </div>
-                    <span className={cn("text-[9px] font-black uppercase tracking-tighter", isActive ? "opacity-100" : "opacity-70")}>
+                    <span className={cn("text-[9px] font-black uppercase tracking-tighter", isActive || activeMenu === item.id ? "opacity-100" : "opacity-70")}>
                       {item.label}
                     </span>
                   </button>

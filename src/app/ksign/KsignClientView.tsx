@@ -156,7 +156,7 @@ export default function KsignClientView({ scrapedData }: KsignClientViewProps) {
             <div className="flex flex-col gap-1">
               <h4 className="text-xs font-bold text-foreground">Install KSign</h4>
               <p className="text-[11px] text-muted-foreground leading-relaxed">
-                Select an **Active** certificate below and click "Direct Install".
+                Select an <strong className="font-bold text-foreground">Active</strong> certificate below and click "Direct Install".
               </p>
             </div>
           </div>

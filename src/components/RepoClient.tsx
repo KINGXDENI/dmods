@@ -33,22 +33,6 @@ export default function RepoClient() {
       ]
     },
     {
-      name: 'Scarlet Repo',
-      id: 'scarlet',
-      description: 'Optimized catalog feed for the Scarlet iOS Installer with category grouping.',
-      icon: Rss,
-      color: 'from-red-500/20 to-rose-500/20 border-rose-500/30 text-rose-500',
-      url: `${origin}/api/repo/scarlet`,
-      deepLink: `scarlet://repo-add?url=${encodeURIComponent(`${origin}/api/repo/scarlet`)}`,
-      oneClickText: 'Add to Scarlet',
-      steps: [
-        'Copy the Scarlet repository URL (or tap "Add to Scarlet" to attempt deep linking).',
-        'Open Scarlet and go to the search tab (or tap the bottom center button).',
-        'Long-press the "Install" button in the top-right corner to open menu.',
-        'Select "Add Repo" and paste the URL.'
-      ]
-    },
-    {
       name: 'ESign / KSign Source',
       id: 'esign',
       description: 'Custom app-source feed for ESign, KSign, and on-device enterprise signers.',
@@ -97,7 +81,7 @@ export default function RepoClient() {
         </header>
 
         {/* Grid Layout of Repo Cards */}
-        <section className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <section className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto w-full">
           {repos.map((repo, idx) => {
             const Icon = repo.icon;
             const isCopied = copiedIndex === idx;

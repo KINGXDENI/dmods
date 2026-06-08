@@ -153,6 +153,8 @@
 @layer base {
   * {
     @apply border-border outline-ring/50;
+    scrollbar-width: thin;
+    scrollbar-color: var(--quartz) var(--background);
   }
   body {
     @apply bg-background text-foreground;
@@ -161,7 +163,41 @@
     cursor: pointer;
   }
   html {
-    @apply font-sans;
+    @apply font-sans scroll-smooth;
+  }
+
+  /* Webkit custom scrollbars style (Global page scrollbar) */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  ::-webkit-scrollbar-track {
+    background: var(--background);
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--quartz);
+    border-radius: 9999px;
+    border: 2px solid var(--background);
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--argent);
+  }
+
+  /* Extra thin webkit scrollbars for inner containers */
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 4px;
+    height: 4px;
+  }
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background: var(--quartz);
+    border-radius: 9999px;
+    border: none;
+  }
+  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: var(--argent);
   }
 }
 

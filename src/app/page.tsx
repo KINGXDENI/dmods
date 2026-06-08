@@ -176,7 +176,7 @@ export default async function LandingPage() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          <div className="flex flex-col gap-4 p-8 rounded-[2.5rem] bg-charleston/25 border border-quartz/30 relative overflow-hidden group hover:border-argent/30 transition-all duration-300">
+          <div className="h-full flex flex-col gap-4 p-8 rounded-[2.5rem] bg-charleston/25 border border-quartz/30 relative overflow-hidden group hover:border-argent/30 transition-all duration-300">
             <div className="absolute -top-12 -right-12 h-24 w-24 bg-argent/5 blur-2xl rounded-full" />
             <div className="p-3 bg-argent/10 border border-argent/20 rounded-2xl w-fit">
               <ShieldCheck className="h-6 w-6 text-argent" />
@@ -187,7 +187,7 @@ export default async function LandingPage() {
             </p>
           </div>
 
-          <div className="flex flex-col gap-4 p-8 rounded-[2.5rem] bg-charleston/25 border border-quartz/30 relative overflow-hidden group hover:border-argent/30 transition-all duration-300">
+          <div className="h-full flex flex-col gap-4 p-8 rounded-[2.5rem] bg-charleston/25 border border-quartz/30 relative overflow-hidden group hover:border-argent/30 transition-all duration-300">
             <div className="absolute -top-12 -right-12 h-24 w-24 bg-argent/5 blur-2xl rounded-full" />
             <div className="p-3 bg-argent/10 border border-argent/20 rounded-2xl w-fit">
               <Terminal className="h-6 w-6 text-argent" />
@@ -198,7 +198,7 @@ export default async function LandingPage() {
             </p>
           </div>
 
-          <div className="flex flex-col gap-4 p-8 rounded-[2.5rem] bg-charleston/25 border border-quartz/30 relative overflow-hidden group hover:border-argent/30 transition-all duration-300">
+          <div className="h-full flex flex-col gap-4 p-8 rounded-[2.5rem] bg-charleston/25 border border-quartz/30 relative overflow-hidden group hover:border-argent/30 transition-all duration-300">
             <div className="absolute -top-12 -right-12 h-24 w-24 bg-argent/5 blur-2xl rounded-full" />
             <div className="p-3 bg-argent/10 border border-argent/20 rounded-2xl w-fit">
               <Cpu className="h-6 w-6 text-argent" />
